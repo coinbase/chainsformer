@@ -1,0 +1,12 @@
+chain:
+  blockchain: BLOCKCHAIN_ETHEREUM
+  network: NETWORK_ETHEREUM_MAINNET
+config_name: ethereum-mainnet
+sla:
+  tier: 1
+table:
+  supported_formats:
+    - native
+    - rosetta
+server:
+  bind_address: ":9090"

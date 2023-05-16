@@ -1,0 +1,11 @@
+chain:
+  blockchain: BLOCKCHAIN_BSC
+  network: NETWORK_BSC_MAINNET
+config_name: bsc-mainnet
+sla:
+  tier: 2
+table:
+  supported_formats:
+    - native
+server:
+  bind_address: ":9090"

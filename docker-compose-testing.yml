@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  ci:
+    image: golang:1.18
+    network_mode: host
+    volumes:
+      - $PWD:/project
+    working_dir: /project
+    environment:
+      - CI
+      - ENDPOINT_GROUPS

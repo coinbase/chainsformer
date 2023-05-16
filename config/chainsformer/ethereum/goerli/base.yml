@@ -1,0 +1,12 @@
+chain:
+  blockchain: BLOCKCHAIN_ETHEREUM
+  network: NETWORK_ETHEREUM_GOERLI
+config_name: ethereum-goerli
+sla:
+  tier: 2
+table:
+  supported_formats:
+    - native
+    - rosetta
+server:
+  bind_address: ":9090"

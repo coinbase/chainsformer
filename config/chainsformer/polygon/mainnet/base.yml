@@ -1,0 +1,12 @@
+chain:
+  blockchain: BLOCKCHAIN_POLYGON
+  network: NETWORK_POLYGON_MAINNET
+config_name: polygon-mainnet
+sla:
+  tier: 1
+table:
+  supported_formats:
+    - native
+    - rosetta
+server:
+  bind_address: ":9090"

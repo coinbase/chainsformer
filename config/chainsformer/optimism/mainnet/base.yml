@@ -1,0 +1,11 @@
+chain:
+  blockchain: BLOCKCHAIN_OPTIMISM
+  network: NETWORK_OPTIMISM_MAINNET
+config_name: optimism-mainnet
+sla:
+  tier: 3
+table:
+  supported_formats:
+    - native
+server:
+  bind_address: ":9090"

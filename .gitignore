@@ -1,0 +1,18 @@
+*.swp
+*.swo
+*.tmp
+
+# OS ignores
+.DS_Store
+
+# IntelliJ workspace-specific
+.idea
+.ijwb
+
+# Ignore all VSCode settings
+/.vscode/
+
+# Build output
+/bin/
+/tmp/
+/.buildkite-caches/
