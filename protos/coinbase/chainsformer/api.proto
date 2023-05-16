@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package coinbase.chainsformer;
+
+option go_package = "github.com/coinbase/chainsformer/protos/coinbase/chainsformer";
+
+message GetFlightInfoCmd {
+  message BatchQuery {
+    reserved 1;
+    uint64 start_height = 2;
+    uint64 end_height = 3;
+    uint64 blocks_per_partition = 4;
+    uint64 blocks_per_record = 5;
+    string compression = 6;
+    string table = 7;
+    string format = 8;
+    string encoding = 9;
+    uint64 partition_by_size = 10;
+  }
+
+  message StreamQuery {
+    reserved 1;
+    int64 start_sequence = 2;
+    int64 end_sequence = 3;
+    uint64 events_per_partition = 4;
+    uint64 events_per_record = 5;
+    string compression = 6;
+    string table = 7;
+    string format = 8;
+    string encoding = 9;
+    uint64 partition_by_size = 10;
+  }
+
+  oneof query {
+    BatchQuery batch_query = 1;
+    StreamQuery stream_query = 2;
+  }
+}
+
+message GetSchemaCmd {
+  string table = 2;
+  string format = 3;
+  string encoding = 4;
+}

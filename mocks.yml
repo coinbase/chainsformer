@@ -1,0 +1,10 @@
+gomocks:
+  - package: internal/chainstorage
+    interfaces:
+      - Session
+  - package: internal/utils/xarrow
+    interfaces:
+      - TableWriter
+  - package: internal/controller
+    sources:
+      - internal/table.go

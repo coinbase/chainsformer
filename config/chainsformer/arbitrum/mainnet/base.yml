@@ -1,0 +1,11 @@
+chain:
+  blockchain: BLOCKCHAIN_ARBITRUM
+  network: NETWORK_ARBITRUM_MAINNET
+config_name: arbitrum-mainnet
+sla:
+  tier: 2
+table:
+  supported_formats:
+    - native
+server:
+  bind_address: ":9090"
