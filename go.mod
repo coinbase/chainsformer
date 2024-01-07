@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/apache/arrow/go/v10 v10.0.1
 	github.com/cenkalti/backoff v2.2.1+incompatible
-	github.com/coinbase/chainstorage v0.0.0-20231231030941-9b975b916f71
+	github.com/coinbase/chainstorage v0.0.0-20240107052932-b5a1cdb60e31
 	github.com/go-playground/validator/v10 v10.16.0
 	github.com/golang/protobuf v1.5.3
 	github.com/google/go-cmp v0.6.0
@@ -124,7 +124,7 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/prometheus/client_golang v1.12.0 // indirect
-	github.com/prometheus/client_model v0.2.1-0.20210607210712-147c58e9608a // indirect
+	github.com/prometheus/client_model v0.5.0 // indirect
 	github.com/prometheus/common v0.32.1 // indirect
 	github.com/prometheus/procfs v0.7.3 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect

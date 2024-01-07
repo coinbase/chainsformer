@@ -14,6 +14,7 @@ import (
 	"golang.org/x/xerrors"
 
 	"github.com/coinbase/chainstorage/protos/coinbase/c3/common"
+	"github.com/coinbase/chainstorage/sdk"
 
 	"github.com/coinbase/chainsformer/config"
 	"github.com/coinbase/chainsformer/internal/utils/auxiliary"
@@ -21,11 +22,12 @@ import (
 
 type (
 	Config struct {
-		ConfigName string       `mapstructure:"config_name" validate:"required"`
-		Chain      ChainConfig  `mapstructure:"chain"`
-		SLA        SLAConfig    `mapstructure:"sla"`
-		Table      TableConfig  `mapstructure:"table" validate:"required"`
-		Server     ServerConfig `mapstructure:"server"`
+		ConfigName      string                `mapstructure:"config_name" validate:"required"`
+		Chain           ChainConfig           `mapstructure:"chain"`
+		SLA             SLAConfig             `mapstructure:"sla"`
+		Table           TableConfig           `mapstructure:"table" validate:"required"`
+		Server          ServerConfig          `mapstructure:"server"`
+		ChainStorageSDK ChainStorageSDKConfig `mapstructure:"chainstorage_sdk" validate:"required"`
 
 		env Env
 	}
@@ -52,6 +54,10 @@ type (
 		BindAddress string `mapstructure:"bind_address" validate:"required"`
 	}
 
+	ChainStorageSDKConfig struct {
+		sdk.Config `mapstructure:",squash"`
+	}
+
 	Env string
 
 	AWSAccount string
@@ -62,6 +68,12 @@ type (
 		Blockchain common.Blockchain `validate:"required"`
 		Network    common.Network    `validate:"required"`
 		Env        Env               `validate:"required,oneof=data-shared-prod data-shared-dev local"`
+	}
+
+	// derivedConfig defines a callback where a config struct can override its fields based on the global config.
+	// For example, ChainStorageSDKConfig implements this interface to copy the global tag into its own struct.
+	derivedConfig interface {
+		DeriveConfig(cfg *Config)
 	}
 )
 
@@ -90,6 +102,8 @@ const (
 )
 
 var (
+	_ derivedConfig = (*ChainStorageSDKConfig)(nil)
+
 	AWSAccountEnvMap = map[AWSAccount]Env{
 		"":                    EnvLocal,
 		AWSAccountDevelopment: EnvDevelopment,
@@ -142,6 +156,8 @@ func New(opts ...ConfigOption) (*Config, error) {
 	))); err != nil {
 		return nil, xerrors.Errorf("failed to unmarshal config: %w", err)
 	}
+
+	cfg.setDerivedConfigs(reflect.ValueOf(&cfg))
 
 	validate := validator.New()
 	if err := validate.Struct(&cfg); err != nil {
@@ -273,6 +289,17 @@ func WithEnvironment(env Env) ConfigOption {
 	}
 }
 
+func mapToChainStorageEnv(env Env) sdk.Env {
+	switch env {
+	case EnvLocal, EnvDevelopment:
+		return sdk.EnvDevelopment
+	case EnvProduction:
+		return sdk.EnvProduction
+	default:
+		return ""
+	}
+}
+
 func (c *Config) Env() Env {
 	return c.env
 }
@@ -313,6 +340,24 @@ func (c *Config) GetCommonTags() map[string]string {
 	}
 }
 
+// setDerivedConfigs recursively calls DeriveConfig on all the derivedConfig.
+func (c *Config) setDerivedConfigs(v reflect.Value) {
+	if v.CanInterface() {
+		if oc, ok := v.Interface().(derivedConfig); ok {
+			oc.DeriveConfig(c)
+			return
+		}
+	}
+
+	elem := v.Elem()
+	for i := 0; i < elem.NumField(); i++ {
+		field := elem.Field(i)
+		if field.Kind() == reflect.Struct {
+			c.setDerivedConfigs(field.Addr())
+		}
+	}
+}
+
 func (c *TableConfig) GetSupportedFormats() map[string]bool {
 	supportedFormats := make(map[string]bool)
 
@@ -329,4 +374,10 @@ func (c *StreamTableConfig) GetParallelism() int {
 	}
 
 	return c.Parallelism
+}
+
+func (c *ChainStorageSDKConfig) DeriveConfig(cfg *Config) {
+	c.Config.Blockchain = cfg.Blockchain()
+	c.Config.Network = cfg.Network()
+	c.Config.Env = mapToChainStorageEnv(cfg.Env())
 }
