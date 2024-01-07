@@ -5,8 +5,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/suite"
+	"go.uber.org/mock/gomock"
 	"golang.org/x/xerrors"
 
 	chainstorageapi "github.com/coinbase/chainstorage/protos/coinbase/chainstorage"

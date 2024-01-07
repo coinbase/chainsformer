@@ -12,10 +12,10 @@ import (
 	"github.com/apache/arrow/go/v10/arrow/array"
 	"github.com/apache/arrow/go/v10/arrow/flight"
 	"github.com/apache/arrow/go/v10/arrow/memory"
-	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"go.uber.org/fx"
+	"go.uber.org/mock/gomock"
 	"golang.org/x/xerrors"
 
 	"github.com/coinbase/chainsformer/internal/chainstorage"
