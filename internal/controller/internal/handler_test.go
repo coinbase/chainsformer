@@ -7,8 +7,8 @@ import (
 	"github.com/apache/arrow/go/v10/arrow"
 	"github.com/apache/arrow/go/v10/arrow/flight"
 	"github.com/apache/arrow/go/v10/arrow/memory"
-	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/suite"
+	"go.uber.org/mock/gomock"
 	"go.uber.org/zap/zaptest"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -336,7 +336,7 @@ func (s *handlerTestSuite) TestGetFlightInfo() {
 			},
 			expectedTable:             s.tables[1],
 			expectedGetEndpointsError: status.Errorf(codes.Internal, ""),
-			expectedError:             status.Errorf(codes.Unknown, ""),
+			expectedError:             status.Errorf(codes.Internal, ""),
 		},
 
 		"stream: table1 unable to find table returns error": {
@@ -369,7 +369,7 @@ func (s *handlerTestSuite) TestGetFlightInfo() {
 			},
 			expectedTable:             s.tables[2],
 			expectedGetEndpointsError: status.Errorf(codes.Internal, ""),
-			expectedError:             status.Errorf(codes.Unknown, ""),
+			expectedError:             status.Errorf(codes.Internal, ""),
 		},
 
 		"stream: table2 unable to find table returns error": {
@@ -416,7 +416,7 @@ func (s *handlerTestSuite) TestGetFlightInfo() {
 			},
 			expectedTable:             s.tables[1],
 			expectedGetEndpointsError: status.Errorf(codes.Internal, ""),
-			expectedError:             status.Errorf(codes.Unknown, ""),
+			expectedError:             status.Errorf(codes.Internal, ""),
 		},
 	}
 

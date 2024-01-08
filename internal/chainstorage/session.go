@@ -9,7 +9,6 @@ import (
 	chainstorageapi "github.com/coinbase/chainstorage/protos/coinbase/chainstorage"
 	"github.com/coinbase/chainstorage/sdk"
 
-	"github.com/coinbase/chainsformer/internal/config"
 	"github.com/coinbase/chainsformer/internal/utils/fxparams"
 )
 
@@ -46,11 +45,7 @@ const (
 )
 
 func NewSession(params Params) (Session, error) {
-	cfg := &sdk.Config{
-		Blockchain: params.Config.Blockchain(),
-		Network:    params.Config.Network(),
-		Env:        mapEnv(params.Config.Env()),
-	}
+	cfg := &params.Config.ChainStorageSDK.Config
 	session, err := sdk.New(params.Manager, cfg)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to create chainstorage session {%+v}: %w", cfg, err)
@@ -106,15 +101,4 @@ func (s *sessionImpl) GetEventSequenceByPosition(ctx context.Context, eventPosit
 
 func (s *sessionImpl) GetStaticChainMetadata(ctx context.Context, req *chainstorageapi.GetChainMetadataRequest) (*chainstorageapi.GetChainMetadataResponse, error) {
 	return s.sdkSession.Client().GetStaticChainMetadata(ctx, req)
-}
-
-func mapEnv(env config.Env) sdk.Env {
-	switch env {
-	case config.EnvLocal, config.EnvDevelopment:
-		return sdk.EnvDevelopment
-	case config.EnvProduction:
-		return sdk.EnvProduction
-	default:
-		return ""
-	}
 }
