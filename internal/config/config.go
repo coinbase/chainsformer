@@ -80,6 +80,8 @@ type (
 const (
 	EnvVarConfigName  = "CHAINSFORMER_CONFIG"
 	EnvVarEnvironment = "CHAINSFORMER_ENVIRONMENT"
+	EnvVarConfigRoot  = "CHAINSFORMER_CONFIG_ROOT"
+	EnvVarConfigPath  = "CHAINSFORMER_CONFIG_PATH"
 	EnvVarTestType    = "TEST_TYPE"
 	EnvVarCI          = "CI"
 
@@ -177,6 +179,14 @@ func GetEnv() Env {
 	return env
 }
 
+func GetConfigRoot() string {
+	return os.Getenv(EnvVarConfigRoot)
+}
+
+func GetConfigPath() string {
+	return os.Getenv(EnvVarConfigPath)
+}
+
 func getConfigOptions(configName string, opts ...ConfigOption) (*configOptions, error) {
 	configOpts := &configOptions{}
 	for _, opt := range opts {
@@ -255,7 +265,24 @@ func stringToNetworkHookFunc() mapstructure.DecodeHookFunc {
 func getConfigData(namespace string, env Env, blockchain common.Blockchain, network common.Network) (io.Reader, error) {
 	blockchainName := blockchain.GetName()
 	networkName := strings.TrimPrefix(network.GetName(), blockchainName+"-")
-	configPath := fmt.Sprintf("%s/%v/%v/%v.yml", namespace, blockchainName, networkName, env)
+	configRoot := GetConfigRoot()
+	configPath := GetConfigPath()
+
+	// If configPath is not set, try to construct the file system path from configRoot.
+	if len(configPath) == 0 && len(configRoot) > 0 {
+		configPath = fmt.Sprintf("%v/%v/%v/%v/%v.yml", configRoot, namespace, blockchainName, networkName, env)
+	}
+
+	// If either configRoot or configPath is set, read the config from the file system.
+	if len(configPath) > 0 {
+		reader, err := os.Open(configPath)
+		if err != nil {
+			return nil, xerrors.Errorf("failed to read config file %v: %w", configPath, err)
+		}
+		return reader, nil
+	}
+
+	configPath = fmt.Sprintf("%s/%v/%v/%v.yml", namespace, blockchainName, networkName, env)
 
 	return config.ConfigFS.Open(configPath)
 }
