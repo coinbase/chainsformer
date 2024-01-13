@@ -1,10 +1,13 @@
 package config_test
 
 import (
+	"os"
 	"sort"
 	"testing"
 
 	"golang.org/x/exp/slices"
+
+	"github.com/coinbase/chainstorage/protos/coinbase/c3/common"
 
 	"github.com/coinbase/chainsformer/internal/config"
 	"github.com/coinbase/chainsformer/internal/utils/testapp"
@@ -135,4 +138,17 @@ func TestConfig(t *testing.T) {
 		require.Equal(expectedMapConfig.streamTable.parallelism, cfg.Table.StreamTable.GetParallelism())
 		require.Equal(expectedMapConfig.server.bindAddress, cfg.Server.BindAddress)
 	})
+}
+
+func TestConfigOverrideConfigPath(t *testing.T) {
+	require := testutil.Require(t)
+	err := os.Setenv(config.EnvVarConfigPath, "../../config/chainsformer/ethereum/goerli/base.yml")
+	require.NoError(err)
+	defer os.Unsetenv(config.EnvVarConfigPath)
+
+	cfg, err := config.New()
+	require.NoError(err)
+
+	require.Equal(common.Blockchain_BLOCKCHAIN_ETHEREUM, cfg.Blockchain())
+	require.Equal(common.Network_NETWORK_ETHEREUM_GOERLI, cfg.Network())
 }
