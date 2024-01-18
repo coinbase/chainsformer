@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/apache/arrow/go/v10 v10.0.1
 	github.com/cenkalti/backoff v2.2.1+incompatible
-	github.com/coinbase/chainstorage v0.0.0-20240107052932-b5a1cdb60e31
+	github.com/coinbase/chainstorage v0.0.0-20240117222657-d8af4ef3b514
 	github.com/go-playground/validator/v10 v10.16.0
 	github.com/golang/protobuf v1.5.3
 	github.com/google/go-cmp v0.6.0
@@ -47,7 +47,7 @@ require (
 	github.com/blendle/zapdriver v1.3.1 // indirect
 	github.com/btcsuite/btcd v0.23.5-0.20231215221805-96c9fd8078fd // indirect
 	github.com/btcsuite/btcd/btcec/v2 v2.2.0 // indirect
-	github.com/btcsuite/btcd/btcutil v1.1.4 // indirect
+	github.com/btcsuite/btcd/btcutil v1.1.5 // indirect
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.1.0 // indirect
 	github.com/cenkalti/backoff/v4 v4.2.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
