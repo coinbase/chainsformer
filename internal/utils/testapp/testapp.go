@@ -5,7 +5,7 @@ import (
 
 	"github.com/coinbase/chainstorage/protos/coinbase/c3/common"
 	"github.com/coinbase/chainstorage/sdk/services"
-	"github.com/uber-go/tally"
+	"github.com/uber-go/tally/v4"
 	"go.uber.org/fx"
 	"go.uber.org/fx/fxtest"
 	"go.uber.org/zap"

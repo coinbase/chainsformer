@@ -28,6 +28,7 @@ type (
 		Table           TableConfig           `mapstructure:"table" validate:"required"`
 		Server          ServerConfig          `mapstructure:"server"`
 		ChainStorageSDK ChainStorageSDKConfig `mapstructure:"chainstorage_sdk" validate:"required"`
+		StatsD          *StatsDConfig         `mapstructure:"statsd"`
 
 		env Env
 	}
@@ -56,6 +57,11 @@ type (
 
 	ChainStorageSDKConfig struct {
 		sdk.Config `mapstructure:",squash"`
+	}
+
+	StatsDConfig struct {
+		Address string `mapstructure:"address" validate:"required"`
+		Prefix  string `mapstructure:"prefix"`
 	}
 
 	Env string
