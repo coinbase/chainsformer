@@ -12,9 +12,10 @@ require (
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/opentracing/opentracing-go v1.2.0
+	github.com/smira/go-statsd v1.3.3
 	github.com/spf13/viper v1.18.2
 	github.com/stretchr/testify v1.8.4
-	github.com/uber-go/tally v3.4.3+incompatible
+	github.com/uber-go/tally/v4 v4.1.10
 	go.uber.org/fx v1.20.1
 	go.uber.org/mock v0.4.0
 	go.uber.org/zap v1.26.0
@@ -150,8 +151,7 @@ require (
 	github.com/tinylib/msgp v1.1.8 // indirect
 	github.com/tklauser/go-sysconf v0.3.12 // indirect
 	github.com/tklauser/numcpus v0.6.1 // indirect
-	github.com/twmb/murmur3 v1.1.6 // indirect
-	github.com/uber-go/tally/v4 v4.1.10 // indirect
+	github.com/twmb/murmur3 v1.1.8 // indirect
 	github.com/zeebo/xxh3 v1.0.2 // indirect
 	go.mongodb.org/mongo-driver v1.12.1 // indirect
 	go.opencensus.io v0.24.0 // indirect

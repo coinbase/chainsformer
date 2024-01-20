@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/apache/arrow/go/v10/arrow/flight"
-	"github.com/uber-go/tally"
+	"github.com/uber-go/tally/v4"
 	"go.uber.org/zap"
 	"golang.org/x/xerrors"
 	"google.golang.org/grpc/codes"
