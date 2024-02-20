@@ -29,7 +29,7 @@ It aims to provide a set of easy to use interfaces to support spark consumers to
 * It defines a set of standardized block and transaction data schema for each asset class (i.e EVM assets or bitcoin).
 * It provides data transformation capability from protobuf to Arrow format.
 * It can be easily scaled up to support higher data throughput.
-* It can be easily integrated via the Chainsformer Spark Connector (LINK TO BE ADDED LATTER) for structured data streaming.
+* It can be easily integrated via the Chainsformer Spark Connector (https://github.com/coinbase/chainsformer-spark-source) for structured data streaming.
 
 ## Quick Start
 
